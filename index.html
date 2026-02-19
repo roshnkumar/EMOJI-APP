@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Secret Emoji App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Scrolling Text -->
+  <marquee behavior="scroll" direction="left" class="marq">
+    🔥 Welcome Secret Emoji App 🔥 Click Emoji To Copy 🔥
+  </marquee>
+
+  <div class="box">
+    <h2>🔐 Emoji Secret App</h2>
+
+    <input type="text" id="textInput" placeholder="Enter Secret Text">
+    <button onclick="encode()">Convert to Emoji</button>
+
+    <p><b>Emoji Code:</b></p>
+    <div id="emojiOutput" onclick="copyEmoji()" title="Click to Copy"></div>
+
+    <p><b>Password:</b> <span id="passwordOutput"></span></p>
+
+    <hr>
+
+    <input type="text" id="emojiInput" placeholder="Enter Emoji Code">
+    <input type="text" id="passwordInput" placeholder="Enter Password">
+    <button onclick="decode()">Decode</button>
+
+    <p><b>Original Text:</b> <span id="textOutput"></span></p>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
