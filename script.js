@@ -1,19 +1,37 @@
-// Emoji Map
+// Full Emoji Map
 let emojiMap = {
+
+  // Letters
   a:"😀", b:"😁", c:"😂", d:"😃", e:"😄", f:"😅", g:"😆",
   h:"😉", i:"😊", j:"😋", k:"😎", l:"😍", m:"😘",
   n:"😗", o:"😙", p:"😚", q:"🙂", r:"🤗",
   s:"🤩", t:"🤔", u:"🤨", v:"😐", w:"😑",
-  x:"😶", y:"🙄", z:"😏", " ":"❄"
+  x:"😶", y:"🙄", z:"😏",
+
+  // Space
+  " ":"❄",
+
+  // Numbers
+  0:"🍎", 1:"🍊", 2:"🍋", 3:"🍌", 4:"🍉",
+  5:"🍇", 6:"🍓", 7:"🍒", 8:"🥝", 9:"🥑",
+
+  // Special Characters
+  "!":"⚡", "@":"🔥", "#":"🌟", "$":"💰",
+  "%":"🎯", "^":"🚀", "&":"🎵", "*":"🎲",
+  "(":"🌀", ")":"🌈", "-":"➖", "_":"➕",
+  "=":"💎", "+":"🔷", "?":"❓", "/":"✂",
+  ".":"🔵", ",":"🟣", ":":"🟡", ";":"🟠",
+  "'":"🔴", "\"":"⚪", "[":"⬛", "]":"⬜",
+  "{":"🟫", "}":"🟩"
 };
 
-// Reverse Map (Emoji → Letter)
+// Reverse Map
 let reverseMap = {};
 for (let key in emojiMap) {
   reverseMap[emojiMap[key]] = key;
 }
 
-// Encode Function
+// Encode
 function encode() {
 
   let text = document.getElementById("textInput").value
@@ -22,13 +40,19 @@ function encode() {
 
   if (!text) return;
 
-  let emojiText = "";
+  let emojiArray = [];
 
   for (let i = 0; i < text.length; i++) {
-    emojiText += emojiMap[text[i]] || "";
+    if (!emojiMap[text[i]]) {
+      alert("Unsupported character: " + text[i]);
+      return;
+    }
+    emojiArray.push(emojiMap[text[i]]);
   }
 
-  // Deterministic Password (Same text → Same password)
+  let emojiText = emojiArray.join(" "); // space separated
+
+  // Password calculation
   let pass = 0;
   for (let i = 0; i < text.length; i++) {
     pass += text.charCodeAt(i);
@@ -40,18 +64,21 @@ function encode() {
   document.getElementById("passwordOutput").innerText = finalPassword;
 }
 
-// Decode Function
+// Decode
 function decode() {
 
-  let emojiInput = document.getElementById("emojiInput").value;
+  let emojiInput = document.getElementById("emojiInput").value.trim();
   let passwordInput = document.getElementById("passwordInput").value;
 
+  let emojiArray = emojiInput.split(" ");
   let decodedText = "";
 
-  // Emoji decode (each emoji is 2 characters long)
-  for (let i = 0; i < emojiInput.length; i+=2) {
-    let emojiChar = emojiInput.slice(i, i+2);
-    decodedText += reverseMap[emojiChar] || "";
+  for (let emoji of emojiArray) {
+    if (!reverseMap[emoji]) {
+      document.getElementById("textOutput").innerText = "Invalid Emoji!";
+      return;
+    }
+    decodedText += reverseMap[emoji];
   }
 
   // Recalculate password
@@ -69,7 +96,7 @@ function decode() {
   }
 }
 
-// Copy Emoji
+// Copy
 function copyEmoji() {
 
   let emojiText = document.getElementById("emojiOutput").innerText;
